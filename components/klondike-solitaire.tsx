@@ -54,14 +54,22 @@ export function KlondikeSolitaireComponent() {
 
   const drawCards = () => {
     if (deck.length === 0) {
+      // If the deck is empty, move waste back into deck (reversed and face down)
       setDeck(waste.reverse().map(card => ({ ...card, faceUp: false })));
       setWaste([]);
     } else {
+      // Determine how many cards to draw based on the game mode
       const numCardsToDraw = gameMode === '1-card' ? 1 : 3;
+
+      // Draw the cards from the deck and flip them face up
       const drawnCards = deck.slice(0, numCardsToDraw).map(card => ({ ...card, faceUp: true }));
+
+      // Add drawn cards to the waste pile, removing them from the deck
       setWaste([...drawnCards, ...waste]);
       setDeck(deck.slice(numCardsToDraw));
     }
+
+    // Reset the selected waste card after drawing
     setSelectedWasteCard(false);
   };
 
@@ -199,8 +207,8 @@ export function KlondikeSolitaireComponent() {
     <CardGame className="w-full max-w-4xl mx-auto mt-8 p-4" onKeyDown={handleKeyPress} tabIndex={0}>
       <CardContent>
         <div className="flex justify-between mb-4">
-          <Button onClick={() => setGameMode('1-card')}>1-Card</Button>
-          <Button onClick={() => setGameMode('3-card')}>3-Card</Button>
+          <Button onClick={() => { initializeGame(); setGameMode('1-card'); }}>1-Card</Button>
+          <Button onClick={() => { initializeGame(); setGameMode('3-card'); }}>3-Card</Button>
           <Button onClick={initializeGame}>New Game</Button>
         </div>
         <div className="flex justify-between mb-4">
@@ -209,9 +217,11 @@ export function KlondikeSolitaireComponent() {
                  onClick={drawCards}>
               {deck.length > 0 ? deck.length : 'R'}
             </div>
-            <div className="w-10 h-14">
-              {waste.length > 0 && renderCard(waste[0], selectedWasteCard)}
-            </div>
+            {waste.slice(0, gameMode === '3-card' ? 3: 1).map((wasteCard, k) => (
+              <div className="w-10 h-14" key={k}>
+                {renderCard(wasteCard, selectedWasteCard)}
+              </div>
+            ))}
           </div>
           <div className="flex space-x-2">
             {foundation.map((pile, index) => (
