@@ -233,7 +233,7 @@ export function KlondikeSolitaireComponent() {
             ))}
           </div>
         </div>
-        <div className="grid grid-cols-7 gap-2 relative">
+        <div className="grid grid-cols-7 gap-2 relative min-h-80">
           {tableau.map((column, columnIndex) => (
             <div key={columnIndex} className="space-y-1">
               {column.map((card, cardIndex) => (
