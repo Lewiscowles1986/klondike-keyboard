@@ -142,9 +142,10 @@ export function KlondikeSolitaireComponent() {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (gameWon) return;
+    const keyPressed = e.key.toLowerCase();
+    if (gameWon && keyPressed != 'n') return;
     
-    switch (e.key.toLowerCase()) {
+    switch (keyPressed) {
       case 'd':
         drawCards();
         break;
