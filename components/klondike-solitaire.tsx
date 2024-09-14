@@ -248,6 +248,7 @@ export function KlondikeSolitaireComponent() {
               <div className="bg-white p-4 rounded-lg shadow-lg text-center">
                 <h2 className="text-2xl font-sans font-normal mb-2">Congratulations!</h2>
                 <p className="text-xl font-sans font-normal">You Won</p>
+                <div dangerouslySetInnerHTML={{ __html: `<!-- /* ${seed} */ -->` }}></div>
               </div>
             </div>
           )}
