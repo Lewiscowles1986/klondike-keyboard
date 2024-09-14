@@ -2,6 +2,9 @@
 
 A Keyboard-controlled Klondike game, built with AI
 
+
+![Screen capture of the game board showing a classic Klondike or Solitaire game, with 7 columns of cards, ranging from one in the left-most to seven in the right-most, with all cards but the last in those 7 columns turned face-down so the card cannot be seen. At the top-right there is a 4 column foundation, sitting empty, and in the top-left is the waste pile, of cards face down, with no cards removed from the waste.](https://github.com/user-attachments/assets/4380cbde-2250-4089-8c12-35331d40415e)
+
 - `<N>` New Game
 - `<D>` Draw card(s)
 - `<1>-<7>` Select nth column in tableau
