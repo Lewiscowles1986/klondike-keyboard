@@ -45,3 +45,32 @@ jobs:
         with:
           sarif_file: eslint-results.sarif
           wait-for-processing: true
+
+  tests:
+    name: Automated Tests
+    runs-on: ubuntu-latest
+    permissions:
+        checks: write
+        pull-requests: write
+        contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Restore dependencies
+        run: npm ci
+
+      - uses: ArtiomTr/jest-coverage-report-action@v2
+        # give the id for the step, to access outputs in another step.
+        id: coverage
+        with:
+            # tell test script command
+            test-script: npm test
+            # tell to the action to not attach comment.
+            # output: report-markdown
+            # alternative if wanting comment and report
+            output: comment, report-markdown
+            # alternative if wanting just comment
+            # output: comment
