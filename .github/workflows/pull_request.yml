@@ -1,13 +1,9 @@
 name: Automated checks (Pull Request)
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ "main" ]
-  schedule:
-    - cron: '21 00 * * 2'
 
 jobs:
   linting:
@@ -45,3 +41,38 @@ jobs:
         with:
           sarif_file: eslint-results.sarif
           wait-for-processing: true
+
+  tests:
+    name: Automated Tests
+    runs-on: ubuntu-latest
+    permissions:
+        checks: write
+        pull-requests: write
+        contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Restore dependencies
+        run: npm ci
+
+      - uses: jwalton/gh-find-current-pr@v1
+        id: findPr
+        with:
+          state: all
+      - uses: ArtiomTr/jest-coverage-report-action@v2
+        # give the id for the step, to access outputs in another step.
+        id: coverage
+        if: success() && steps.findPr.outputs.number
+        with:
+            # tell test script command
+            test-script: npm test
+            # tell to the action to not attach comment.
+            # output: report-markdown
+            # alternative if wanting comment and report
+            output: comment, report-markdown
+            # alternative if wanting just comment
+            # output: comment
+            prnumber: ${{ steps.findPr.outputs.number }}
