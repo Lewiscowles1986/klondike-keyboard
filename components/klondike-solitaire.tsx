@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Card, CardContent } from "@/components/ui/card"
+import { CardGame, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
 const SUITS = ['♠', '♥', '♦', '♣'];
@@ -212,7 +212,7 @@ export function KlondikeSolitaireComponent() {
   );
 
   return (
-    <Card className="w-full max-w-4xl mx-auto mt-8 p-4" onKeyDown={handleKeyPress} tabIndex={0}>
+    <CardGame className="w-full max-w-4xl mx-auto mt-8 p-4" onKeyDown={handleKeyPress} tabIndex={0}>
       <CardContent>
         <div className="flex justify-between mb-4">
           <Button onClick={() => setGameMode('1-card')}>1-Card</Button>
@@ -270,6 +270,6 @@ export function KlondikeSolitaireComponent() {
           </ul>
         </div>
       </CardContent>
-    </Card>
+    </CardGame>
   );
 }
