@@ -4,29 +4,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { CardGame, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
-const SUITS = ['♠', '♥', '♦', '♣'];
-const RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+import { SUITS, RANKS, createDeck, seededRandom, Card } from '../lib/cards';
+import { getRandomInt } from '@/lib/utils';
 
-type Card = {
-  suit: string;
-  rank: string;
-  faceUp: boolean;
-};
-
-const createDeck = (): Card[] => {
-  const deck = SUITS.flatMap(suit =>
-    RANKS.map(rank => ({ suit, rank, faceUp: false }))
-  );
-  return shuffle(deck);
-};
-
-const shuffle = (array: Card[]): Card[] => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-};
+const seed = getRandomInt(0, Number.MAX_SAFE_INTEGER)
+const rng = seededRandom(seed);
+const makeNewDeck = () => createDeck(rng());
 
 export function KlondikeSolitaireComponent() {
   const [gameMode, setGameMode] = useState<'1-card' | '3-card'>('1-card');
@@ -40,7 +23,7 @@ export function KlondikeSolitaireComponent() {
   const [gameWon, setGameWon] = useState<boolean>(false);
 
   const initializeGame = useCallback(() => {
-    const newDeck = createDeck();
+    const newDeck = makeNewDeck()
     const newTableau: Card[][] = Array(7).fill([]).map((_, i) => 
       newDeck.splice(0, i + 1).map((card, j) => ({ ...card, faceUp: j === i }))
     );
