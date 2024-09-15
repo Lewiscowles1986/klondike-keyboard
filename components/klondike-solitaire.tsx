@@ -217,7 +217,8 @@ export function KlondikeSolitaireComponent() {
     ) : 'bg-blue-500'} flex items-center justify-center`}>
       {card.faceUp ? `${card.rank}${card.suit}` : ''}
     </div>
-  );  
+  );
+  const visibleWasteCards = waste.slice(0, gameMode === '3-card' ? 3: 1).reverse();
 
   return (
     <CardGame className="w-full max-w-4xl mx-auto mt-8 p-4" onKeyDown={handleKeyPress} tabIndex={0}>
@@ -233,9 +234,9 @@ export function KlondikeSolitaireComponent() {
                  onClick={drawCards}>
               {deck.length > 0 ? deck.length : 'R'}
             </div>
-            {waste.slice(0, gameMode === '3-card' ? 3: 1).map((wasteCard, k) => (
+            {visibleWasteCards.map((wasteCard, k) => (
               <div className="w-10 h-14" key={k}>
-                {renderCard(wasteCard, selectedWasteCard)}
+                {renderCard(wasteCard, selectedWasteCard && (visibleWasteCards.length && wasteCard == visibleWasteCards.at(-1) || false))}
               </div>
             ))}
           </div>
@@ -269,6 +270,21 @@ export function KlondikeSolitaireComponent() {
             </div>
           )}
         </div>
+        {false && (
+        <div className="mt-4">
+          <p>Waste cards</p>
+          {waste.map((wasteCard, wasteCardIndex) => (
+            <div key={wasteCardIndex}>
+            {renderCard(
+              wasteCard,
+              visibleWasteCards.map(
+                (card: Card) => `${card.rank}-${card.suit}`
+              ).includes(`${wasteCard.rank}-${wasteCard.suit}`)
+            )}
+            </div>
+          ))}
+        </div>
+        )}
         {false && (
         <div className="mt-4">
           <p>Selected cards</p>
