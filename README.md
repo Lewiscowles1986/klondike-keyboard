@@ -45,16 +45,20 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 ### Known bugs / areas of iteration
 
+> [!NOTE]  
+> I made progress against several of these. It's surprising that, many were quite close at hand answers that just needed testing or a REPL to get right.
+> If you see something with a ☑️ then it should mean it's done.
+
 This is not provided to "dunk on" AI, but it does represent areas I feel I would focus on for further development.
 
-- [ ] 3-card play is totally untested and I believe relies on the mouse
-- [ ] You can only move an entire column from tableau
-- [ ] Random uses JavaScript Math.random which does not take a seed
+- [X] 3-card play is totally untested and I believe relies on the mouse
+- [X] You can only move an entire column from tableau
+- [X] Random uses JavaScript Math.random which does not take a seed
 - [ ] Heavily coupled to ReactJS, Next, browser... IDK this feels like it should be playable in a console
       - [ ] the game should not "need" a UI (helps testing)
       - [ ] the game should be able to put on a face-lift
 - [ ] Non-semantic HTML elements used
-- [ ] No test suite
+- [X] No test suite
 - [ ] No scoring or time display
 - [ ] No saved game or ability to come back and resume play
 - [ ] I dont know that all generated games are complete-able
@@ -63,7 +67,7 @@ This is not provided to "dunk on" AI, but it does represent areas I feel I would
 - [ ] There is no way to tell a player they've lost
 - [ ] I'm pretty sure there is something messing with focus in this
 - [ ] I'd like to play with Aural announcement to experiment with non-visual interface
-- [ ] After completing the game, I was unable to use the N key, and had to hit the button for "New Game"
+- [X] After completing the game, I was unable to use the N key, and had to hit the button for "New Game"
       - I did not tab to it. I used a cursor.
 
 ## Provenance
