@@ -110,16 +110,20 @@ export function KlondikeSolitaireComponent() {
   const moveCards = (sourceIndex: number, targetIndex: number, isFromWaste: boolean = false) => {
     const sourcePile = isFromWaste ? [waste[0]] : tableau[sourceIndex];
     const targetPile = tableau[targetIndex];
-    const cardsToMove = isFromWaste ? sourcePile : sourcePile.slice(sourcePile.findIndex(card => card.faceUp));
-
+    
+    // Only move the currently selected cards
+    const cardsToMove = isFromWaste ? sourcePile : selectedCards;
+    
     if (
       cardsToMove.length > 0 &&
-      (targetPile.length === 0 && cardsToMove[0].rank === 'K' ||
+      (targetPile.length === 0 && cardsToMove[0].rank === 'K' ||  // Move to empty tableau with King
        targetPile.length > 0 && 
        RANKS.indexOf(cardsToMove[0].rank) === RANKS.indexOf(targetPile[targetPile.length - 1].rank) - 1 &&
        ['♠', '♣'].includes(cardsToMove[0].suit) !== ['♠', '♣'].includes(targetPile[targetPile.length - 1].suit))
     ) {
       const newTableau = [...tableau];
+      
+      // Remove the moved cards from the source pile
       if (!isFromWaste) {
         newTableau[sourceIndex] = sourcePile.slice(0, sourcePile.length - cardsToMove.length);
         if (newTableau[sourceIndex].length > 0) {
@@ -128,16 +132,19 @@ export function KlondikeSolitaireComponent() {
       } else {
         setWaste(waste.slice(1));
       }
+      
+      // Add the moved cards to the target pile
       newTableau[targetIndex] = [...targetPile, ...cardsToMove];
+      
       setTableau(newTableau);
       setSelectedColumn(null);
-      setSelectedCards([]);
+      setSelectedCards([]);  // Clear the selection
       setSelectedWasteCard(false);
       return true;
     }
-
+  
     return false;
-  };
+  };  
 
   const tryMoveToFoundation = () => {
     if (selectedWasteCard && waste.length > 0) {
@@ -174,14 +181,23 @@ export function KlondikeSolitaireComponent() {
       case '7':
         const columnIndex = parseInt(e.key) - 1;
         if (selectedWasteCard) {
-          moveCards(0, columnIndex, true);
+          moveCards(0, columnIndex, true); // Move from waste to tableau
         } else if (selectedColumn === null) {
+          // No column selected yet, select the column
           setSelectedColumn(columnIndex);
           setSelectedCards(tableau[columnIndex].filter(card => card.faceUp));
+        } else if (selectedColumn === columnIndex) {
+          // If the same column is selected again, allow partial selection by reducing selectedCards
+          const viableCardsToSelect = tableau[columnIndex].filter(card => card.faceUp);
+          const allSelected = viableCardsToSelect.length == selectedCards.length;
+          const noneSelected = selectedCards.length == 0;
+          const cardsUpToSelected = (noneSelected ? viableCardsToSelect : ((!allSelected ? [viableCardsToSelect[viableCardsToSelect.findIndex((card) => card == selectedCards[0]) - 1], ...selectedCards] : [viableCardsToSelect.at(-1)]).filter((val) => val) ?? []))
+          setSelectedCards(cardsUpToSelected as Card[]);
         } else {
+          // Try to move the selected cards to the new column
           moveCards(selectedColumn, columnIndex);
         }
-        break;
+        break;          
       case 'escape':
         setSelectedColumn(null);
         setSelectedCards([]);
@@ -201,7 +217,7 @@ export function KlondikeSolitaireComponent() {
     ) : 'bg-blue-500'} flex items-center justify-center`}>
       {card.faceUp ? `${card.rank}${card.suit}` : ''}
     </div>
-  );
+  );  
 
   return (
     <CardGame className="w-full max-w-4xl mx-auto mt-8 p-4" onKeyDown={handleKeyPress} tabIndex={0}>
@@ -238,7 +254,7 @@ export function KlondikeSolitaireComponent() {
             <div key={columnIndex} className="space-y-1">
               {column.map((card, cardIndex) => (
                 <div key={cardIndex}>
-                  {renderCard(card, selectedColumn === columnIndex && cardIndex >= column.length - selectedCards.length)}
+                  {renderCard(card, selectedColumn === columnIndex && selectedCards.includes(card))}
                 </div>
               ))}
             </div>
@@ -253,6 +269,16 @@ export function KlondikeSolitaireComponent() {
             </div>
           )}
         </div>
+        {false && (
+        <div className="mt-4">
+          <p>Selected cards</p>
+          {selectedCards.map((selectedCard, selectedCardIndex) => (
+            <div key={selectedCardIndex}>
+            {renderCard(selectedCard, false)}
+            </div>
+          ))}
+        </div>
+        )}
         <div className="mt-4">
           <p>Controls:</p>
           <ul className="list-disc list-inside">
