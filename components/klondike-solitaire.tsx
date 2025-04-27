@@ -5,11 +5,11 @@ import { CardGame, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
 import { SUITS, RANKS, createDeck, seededRandom, Card } from '../lib/cards';
-import { getRandomInt } from '@/lib/utils';
+import { getRandomInt, getQueryParam } from '@/lib/utils';
 
 const seed = getRandomInt(0, Number.MAX_SAFE_INTEGER)
 const rng = seededRandom(seed);
-const makeNewDeck = () => createDeck(rng());
+const makeNewDeck = () => createDeck(Number(getQueryParam(window.location, 'resumeSeed') ?? rng()));
 
 export function KlondikeSolitaireComponent() {
   const [gameMode, setGameMode] = useState<'1-card' | '3-card'>('1-card');

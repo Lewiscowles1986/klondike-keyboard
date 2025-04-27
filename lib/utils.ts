@@ -13,3 +13,16 @@ export function getRandomInt(min: number, max: number): number {
   const maxFloored = Math.floor(max);
   return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
 }
+
+export function getQueryParam(location: Location, name: string): string | null {
+  const query = location.search.substring(1);
+  const vars = query.split("&");
+  for (let i = 0; i < vars.length; i++) {
+    const pair = vars[i].split("=");
+    if (decodeURIComponent(pair[0]) === name) {
+      const returnValue = pair[1];
+      return returnValue ? decodeURIComponent(returnValue) : null;
+    }
+  }
+  return null;
+}

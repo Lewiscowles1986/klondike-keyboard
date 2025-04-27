@@ -1,4 +1,4 @@
-import { getRandomInt } from './utils';
+import { getQueryParam, getRandomInt } from './utils';
 
 describe('getRandomInt', () => {
   test('should return an integer within the specified range', () => {
@@ -72,5 +72,33 @@ describe('getRandomInt', () => {
     expect(getRandomInt(min, max)).toBe(3);
 
     randomSpy.mockRestore(); // Correctly restore Math.random()
+  });
+});
+
+describe('getQueryParam', () => {
+  const mockLocation = (search: string): Location => ({
+    ...window.location,
+    search,
+  });
+
+  it('returns correct value', () => {
+    expect(getQueryParam(mockLocation('?foo=bar&baz=qux'), 'foo')).toBe('bar');
+    expect(getQueryParam(mockLocation('?foo=bar&baz=qux'), 'baz')).toBe('qux');
+  });
+
+  it('returns null when parameter is missing', () => {
+    expect(getQueryParam(mockLocation('?foo=bar'), 'missing')).toBeNull();
+  });
+
+  it('returns null when parameter has no value', () => {
+    expect(getQueryParam(mockLocation('?foo='), 'foo')).toBeNull();
+  });
+
+  it('decodes URL-encoded parameters', () => {
+    expect(getQueryParam(mockLocation('?first%20name=John%20Doe'), 'first name')).toBe('John Doe');
+  });
+
+  it('handles empty query string', () => {
+    expect(getQueryParam(mockLocation(''), 'anything')).toBeNull();
   });
 });
