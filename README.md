@@ -51,24 +51,28 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This is not provided to "dunk on" AI, but it does represent areas I feel I would focus on for further development.
 
-- [X] 3-card play is totally untested and I believe relies on the mouse
-- [X] You can only move an entire column from tableau
-- [X] Random uses JavaScript Math.random which does not take a seed
+- [X] 3-card play is totally untested and I believe relies on the mouse  
+- [X] You can only move an entire column from tableau  
+- [X] Random uses JavaScript Math.random which does not take a seed  
 - [ ] Heavily coupled to ReactJS, Next, browser... IDK this feels like it should be playable in a console  
   - [ ] the game should not "need" a UI (helps testing)  
   - [ ] the game should be able to put on a face-lift  
 - [ ] Non-semantic HTML elements used  
-- [X] No test suite
-- [ ] No scoring or time display
-- [ ] No saved game or ability to come back and resume play
-- [ ] I dont know that all generated games are complete-able
-- [ ] I'm as-yet unsure about how to entice players to play more (borders on gambling) :laugh:
-- [ ] I would like to de-couple controllers, and perhaps given a seed to predictably shuffle cards, like a command-pattern way to push actions to a stack, so the game can play-through
-- [ ] There is no way to tell a player they've lost
-- [ ] I'm pretty sure there is something messing with focus in this
-- [ ] I'd like to play with Aural announcement to experiment with non-visual interface
-- [X] After completing the game, I was unable to use the N key, and had to hit the button for "New Game"
-      - I did not tab to it. I used a cursor.
+- [X] No test suite  
+- [ ] No scoring or time display  
+- [ ] No saved game or ability to come back and resume play  
+  - [X] seed is now resumable  
+  - [ ] command-queue would help add undo / redo, but also replay  
+  - [ ] serialisation of command-queue + random seed could enable save  
+  - [ ] de-serialisation and projection to state, could enable load  
+- [ ] I dont know that all generated games are complete-able  
+- [ ] I'm as-yet unsure about how to entice players to play more (borders on gambling) :laugh:  
+- [ ] I would like to de-couple controllers, and perhaps given a seed to predictably shuffle cards, like a command-pattern way to push actions to a stack, so the game can play-through  
+- [ ] There is no way to tell a player they've lost  
+- [ ] I'm pretty sure there is something messing with focus in this  
+- [ ] I'd like to play with Aural announcement to experiment with non-visual interface  
+- [X] After completing the game, I was unable to use the N key, and had to hit the button for "New Game"  
+      - I did not tab to it. I used a cursor.  
 
 ## Provenance
 
