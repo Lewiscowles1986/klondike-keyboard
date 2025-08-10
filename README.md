@@ -54,10 +54,10 @@ This is not provided to "dunk on" AI, but it does represent areas I feel I would
 - [X] 3-card play is totally untested and I believe relies on the mouse
 - [X] You can only move an entire column from tableau
 - [X] Random uses JavaScript Math.random which does not take a seed
-- [ ] Heavily coupled to ReactJS, Next, browser... IDK this feels like it should be playable in a console
-      - [ ] the game should not "need" a UI (helps testing)
-      - [ ] the game should be able to put on a face-lift
-- [ ] Non-semantic HTML elements used
+- [ ] Heavily coupled to ReactJS, Next, browser... IDK this feels like it should be playable in a console  
+  - [ ] the game should not "need" a UI (helps testing)  
+  - [ ] the game should be able to put on a face-lift  
+- [ ] Non-semantic HTML elements used  
 - [X] No test suite
 - [ ] No scoring or time display
 - [ ] No saved game or ability to come back and resume play
